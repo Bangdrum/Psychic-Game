@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Psychic Game</title>
+</head>
+
+<body>
+    <div id="about-game">
+        <h1>Guess what letter your computer is thinking of!</h1>
+        <h2 id="wins">Wins: </h2>
+        <h2 id="losses">Losses: </h2>
+        <h2 id="guessesLeft">Guesses left: </h2>
+        <h2 id="currentGuesses">You've guessed:</h2>
+
+    </div>
+
+
+    <script type="text/javascript">
+        var letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+            "t", "u", "v", "w", "x", "y", "z"
+        ];
+        var winsCount = 0;
+        var lossesCount = 0;
+        var defaultGuessesLeft = 10;
+        var guessesLeftCount = defaultGuessesLeft;
+        var computersChoice = [];
+
+
+
+        // get id's
+        var wins = document.getElementById("wins");
+
+        var losses = document.getElementById("losses");
+
+        var guessesLeft = document.getElementById("guessesLeft");
+
+        var currentGuesses = document.getElementById("currentGuesses");
+
+
+
+        var getRandomLetter = function () {
+            randomLetter = letters[Math.floor(Math.random() * letters.length)]
+            console.log(randomLetter);
+            return randomLetter
+        }
+
+        var displayStats = function () {
+            wins.innerHTML = "Wins: " + winsCount
+            losses.innerHTML = "Losses: " + lossesCount
+            guessesLeft.innerHTML = "Guesses Left: " + guessesLeftCount
+            currentGuesses.innerHTML = "You've Guessed: " + computersChoice
+        }
+
+        var resetGame = function () {
+            computersChoice = [];
+            guessesLeftCount = defaultGuessesLeft;
+            currentLetter = getRandomLetter();
+        }
+
+        var userWon = function (userLetter) {
+            return userLetter === currentLetter
+        }
+
+
+        var userLost = function () {
+            return guessesLeftCount === 0;
+        }
+
+
+        var currentLetter = getRandomLetter();
+        displayStats();
+        document.onkeyup = function (event) {
+            var userLetter = event.key;
+            guessesLeftCount--
+            computersChoice.push(userLetter)
+            //  I want to only allow letters in array to count as guesses?
+            if (userWon(userLetter)) {
+                winsCount++;
+                resetGame();
+            }
+            // ^ want to add an alert displaying winning letter
+            if (userLost()) {
+                lossesCount++;
+                resetGame();
+            }
+            // ^ want to add an alert displaying what the winning letter was*
+            displayStats();
+        }
+    </script>
+
+</body>
+
+</html>
